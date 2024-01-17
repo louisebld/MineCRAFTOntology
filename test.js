@@ -119,7 +119,6 @@ app.get("/objects/crafts/:material", async (req, res) => {
     try {
         let quads = await getCraft(req.params.material);
         quads = extractMaterialFromQuad(quads);
-        console.log("Quads:", quads);
         quads = fromTableTOJsonItem(quads);
         res.send(quads);
     } catch (error) {
@@ -134,8 +133,30 @@ app.get("/objects/materials/:material", async (req, res) => {
         let quads = await getRequireMaterialsForACraft(req.params.material);
         quads = extractMaterialFromQuad(quads, "right");
         quads = fromTableTOJsonItem(quads);
-        console.log("Quads:", quads);
         res.send(quads);
+    } catch (error) {
+        console.error("Une erreur s'est produite :", error);
+        res.status(500).send("Une erreur s'est produite");
+    }
+});
+
+app.get("/items/:item", async (req, res) => {
+    try {
+        console.log(req.params.item)
+        let item = getInfoItem(req.params.item);
+        // récupère les crafts
+        let crafts = await getCraft(req.params.item);
+        crafts = extractMaterialFromQuad(crafts);
+        crafts = fromTableTOJsonItem(crafts);
+        item.crafts = crafts;
+
+        // récupère les matériaux nécessaires
+        let materials = await getRequireMaterialsForACraft(req.params.item);
+        materials = extractMaterialFromQuad(materials, "right");
+        materials = fromTableTOJsonItem(materials);
+        item.materials = materials;
+
+        res.send(item);
     } catch (error) {
         console.error("Une erreur s'est produite :", error);
         res.status(500).send("Une erreur s'est produite");
