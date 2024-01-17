@@ -4,6 +4,10 @@ const express = require("express")
 const app = express()
 const PORT = 8080
 
+const request = require('request');
+
+let json = null;
+
 const prefixes = {
     ex: 'http://example.org/'
 };
@@ -12,18 +16,29 @@ const turtleFile = fs.readFileSync('./minecraft.ttl', 'utf8');
 const store = new N3.Store();
 const parser = new N3.Parser();
 
-parser.parse(turtleFile,
-    (error, quad, prefixes) => {
-        if (error) {
-            console.error(error);
-        } else if (quad) {
-            store.addQuad(quad);
+function getTurtleFile() {
+    parser.parse(turtleFile,
+        (error, quad, prefixes) => {
+            if (error) {
+                console.error(error);
+            } else if (quad) {
+                store.addQuad(quad);
+            }
+            else {
+                console.log("Parsing terminé")
+            }
         }
-        else {
-            console.log("Parsing terminé")
-        }
-    }
-)
+    )
+}
+
+function getJsonMinecraft() {
+    request('https://minecraft-api.vercel.app/api/items', function (error, response, body) {
+        json = JSON.parse(body);
+        console.log("Import du json terminé");
+    });
+}
+
+// --------------------------------------------------------------- Functions
 
 function extractMaterialFromQuad(quads, left_or_right) {
     const materialNamesSet = new Set();
@@ -80,6 +95,19 @@ function getRequireMaterialsForACraft(craft) {
     });
 }
 
+function getInfoItem(itemName) {
+    return json.find(item => item.namespacedId == itemName)
+}
+
+function fromTableTOJsonItem(table) {
+    let itemInfos = []
+    table.forEach(item => {
+        itemInfos.push(getInfoItem(item));
+    });
+    return itemInfos;
+}
+
+
 // --------------------------------------------------------------- Routes
 
 app.get("/", (req, res) => {
@@ -92,6 +120,7 @@ app.get("/objects/crafts/:material", async (req, res) => {
         let quads = await getCraft(req.params.material);
         quads = extractMaterialFromQuad(quads);
         console.log("Quads:", quads);
+        quads = fromTableTOJsonItem(quads);
         res.send(quads);
     } catch (error) {
         console.error("Une erreur s'est produite :", error);
@@ -104,6 +133,7 @@ app.get("/objects/materials/:material", async (req, res) => {
     try {
         let quads = await getRequireMaterialsForACraft(req.params.material);
         quads = extractMaterialFromQuad(quads, "right");
+        quads = fromTableTOJsonItem(quads);
         console.log("Quads:", quads);
         res.send(quads);
     } catch (error) {
@@ -113,5 +143,7 @@ app.get("/objects/materials/:material", async (req, res) => {
 });
 
 app.listen(PORT, () => {
+    getTurtleFile();
+    getJsonMinecraft();
     console.log("Serveur démarré sur le port PORT")
 })

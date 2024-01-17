@@ -4,19 +4,19 @@ ex:wood ex:isMaterial true .
 ex:stone ex:isMaterial true .
 ex:iron ex:isMaterial true .
 
-ex:plank ex:isObject true .
-ex:stoneSlab ex:isObject true .
-ex:ironIngot ex:isObject true .
-ex:woodenSword ex:isObject true .
+ex:oak_planks ex:isObject true .
+ex:stone_slab ex:isObject true .
+ex:iron_ingot ex:isObject true .
+ex:wooden_sword ex:isObject true .
 ex:stick ex:isObject true .
 
-ex:wood ex:canCraft ex:plank .
-ex:stone ex:canCraft ex:stoneSlab .
-ex:iron ex:canCraft ex:ironIngot .
-ex:plank ex:canCraft ex:stick .
-ex:plank ex:canCraft ex:door .
-ex:stick ex:canCraft ex:woodenSword .
-ex:plank ex:canCraft ex:woodenSword .
+ex:wood ex:canCraft ex:oak_planks .
+ex:stone ex:canCraft ex:stone_slab .
+ex:iron ex:canCraft ex:iron_ingot .
+ex:oak_planks ex:canCraft ex:stick .
+ex:oak_planks ex:canCraft ex:oak_door .
+ex:stick ex:canCraft ex:wooden_sword .
+ex:oak_planks ex:canCraft ex:wooden_sword .
 
-ex:woodenSword ex:isSubclassOf ex:sword .
+ex:wooden_sword ex:isSubclassOf ex:sword .
 ex:sword ex:isObject true .
