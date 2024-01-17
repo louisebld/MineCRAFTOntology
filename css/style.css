@@ -25,6 +25,18 @@ body {
     background-size: 100px;
 }
 
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+
+
 header {
     /* Remplit le background de la texture de planche */
     background-image: url('./grasstoper.jpg');
@@ -48,17 +60,15 @@ header {
             align-items: center;
             justify-content: center;
             gap: 1rem;
+
+            h1 {
+                color: #173317;
+            }
             
             img {
                 width: 80px;
             }
 
-            h1 {
-                font-size: 2.5rem;
-                font-weight: 700;
-                text-align: center;
-                color: #223d22;
-            }
         }
 
         .search-input {
@@ -161,16 +171,16 @@ section {
             img {
                 width: 100px;
             }
-
-            h2 {
-                font-size: 2rem;
-                font-weight: 700;
-            }
         }
 
-        h2 {
-            font-size: 3.2rem;
-            font-weight: 700;
+        .recipe-container, .craft-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            img {
+                width: 40px;
+            }
         }
     }
 }

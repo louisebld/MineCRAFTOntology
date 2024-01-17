@@ -32,31 +32,37 @@
 			<div class="section-left">
 				<div class="header">
 					<img :src="item.image" alt="item">
-					<h2>{{ item.name }}</h2>
+					<h1>{{ item.name }}</h1>
 				</div>
 				<div class="content">
 					<p>{{item.description}}</p>
 					<div class="recipes">
-						<h3>Recettes</h3>
-						<p>Voici toutes les recettes possibles à partir de {{ item.name }}</p>
+						<h2>Recettes</h2>
+						<p>All the possible recipes of	 {{ item.name }}</p>
 						<ul>
 							<li v-for="recipe in item.recipes" :key="recipe.id" class="recipe">
-								{{recipe.name}}
+								<div class="recipe-container">
+									<img :src="recipe.image" alt="recipe">
+									{{recipe.name}}
+								</div>
 							</li>
 						</ul>
 					</div>
 					<div>
-						<h3>Utilisations</h3>
-						<p>Voici toutes les utilisations possibles de {{ item.name }}</p>
+						<h2>Uses</h2>
+						<p>All the possible uses of {{ item.name }}</p>
 						<ul>
 							<li v-for="craftItem in item.craft" :key="craftItem.id">
-								{{craftItem.name}}
+								<div class="craft-container">
+									<img :src="craftItem.image" alt="craftItem">
+									{{craftItem.name}}
+								</div>
 							</li>
 						</ul>
 					</div>
 					<div class="infos">
-						<p>ID dans minecraft: {{ item.id }}</p>
-						<p>Nombre de stack: {{ item.stackSize }}</p>
+						<p>Minecraft Id: {{ item.id }}</p>
+						<p>Stack numbers: {{ item.stackSize }}</p>
 					</div>
 				</div>
 			</div>
