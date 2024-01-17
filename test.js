@@ -8,9 +8,7 @@ const request = require('request');
 
 let json = null;
 
-const prefixes = {
-    ex: 'http://example.org/'
-};
+const prefixe = 'http://example.org/'
 
 const turtleFile = fs.readFileSync('./minecraft.ttl', 'utf8');
 const store = new N3.Store();
@@ -18,7 +16,7 @@ const parser = new N3.Parser();
 
 function getTurtleFile() {
     parser.parse(turtleFile,
-        (error, quad, prefixes) => {
+        (error, quad) => {
             if (error) {
                 console.error(error);
             } else if (quad) {
@@ -41,10 +39,11 @@ function getJsonMinecraft() {
 // --------------------------------------------------------------- Functions
 
 function extractMaterialFromQuad(quads, left_or_right) {
+    // Un set pour ne pas avoir de doublons
     const materialNamesSet = new Set();
 
     quads.forEach(quad => {
-
+        // Soit on récupère le sujet, soit l'objet
         if (left_or_right == "right") {
             if (quad.subject && quad.subject.value) {
                 materialNamesSet.add(getName(quad.subject.value));
@@ -62,18 +61,17 @@ function extractMaterialFromQuad(quads, left_or_right) {
 }
 
 function getName(value) {
-    return value.replace(prefixes.ex, "");
+    return value.replace(prefixe, "");
 }
 
 function getCraft(material) {
     return new Promise((resolve, reject) => {
         let quads = [];
-        store.match(prefixes.ex + material, prefixes.ex + 'canCraft', null).forEach((quad) => {
+        store.match(prefixe + material, prefixe + 'canCraft', null).forEach((quad) => {
             quads.push(quad);
-            console.log("quads", quads);
         });
 
-        // Utiliser setImmediate pour rendre cela asynchrone
+        // pour rendre cela asynchrone
         setImmediate(() => {
             resolve(quads);
         });
@@ -83,12 +81,11 @@ function getCraft(material) {
 function getRequireMaterialsForACraft(craft) {
     return new Promise((resolve, reject) => {
         let quads = [];
-        store.match(null, prefixes.ex + 'canCraft', prefixes.ex + craft).forEach((quad) => {
+        store.match(null, prefixe + 'canCraft', prefixe + craft).forEach((quad) => {
             quads.push(quad);
-            console.log("quads", quads);
         });
 
-        // Utiliser setImmediate pour rendre cela asynchrone
+        // pour rendre cela asynchrone
         setImmediate(() => {
             resolve(quads);
         });
@@ -107,6 +104,9 @@ function fromTableTOJsonItem(table) {
     return itemInfos;
 }
 
+function processQuads(quads) {
+    return fromTableTOJsonItem(extractMaterialFromQuad(quads));
+}
 
 // --------------------------------------------------------------- Routes
 
@@ -117,10 +117,9 @@ app.get("/", (req, res) => {
 app.get("/objects/crafts/:material", async (req, res) => {
     // les crafts qui nécessitent le matériau
     try {
-        let quads = await getCraft(req.params.material);
-        quads = extractMaterialFromQuad(quads);
-        quads = fromTableTOJsonItem(quads);
-        res.send(quads);
+        const quads = await getCraft(req.params.material);
+        const process_quads = processQuads(quads);
+        res.send(process_quads);
     } catch (error) {
         console.error("Une erreur s'est produite :", error);
         res.status(500).send("Une erreur s'est produite");
@@ -131,9 +130,8 @@ app.get("/objects/crafts/:material", async (req, res) => {
 app.get("/objects/materials/:material", async (req, res) => {
     try {
         let quads = await getRequireMaterialsForACraft(req.params.material);
-        quads = extractMaterialFromQuad(quads, "right");
-        quads = fromTableTOJsonItem(quads);
-        res.send(quads);
+        const process_quads = processQuads(quads);
+        res.send(process_quads);
     } catch (error) {
         console.error("Une erreur s'est produite :", error);
         res.status(500).send("Une erreur s'est produite");
@@ -162,6 +160,9 @@ app.get("/items/:item", async (req, res) => {
         res.status(500).send("Une erreur s'est produite");
     }
 });
+
+app.get("/naturalMaterials", (req, res) => {
+})
 
 app.listen(PORT, () => {
     getTurtleFile();
