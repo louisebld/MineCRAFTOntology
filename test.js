@@ -104,8 +104,8 @@ function fromTableTOJsonItem(table) {
     return itemInfos;
 }
 
-function processQuads(quads) {
-    return fromTableTOJsonItem(extractMaterialFromQuad(quads));
+function processQuads(quads, left_or_right) {
+    return fromTableTOJsonItem(extractMaterialFromQuad(quads, left_or_right));
 }
 
 // --------------------------------------------------------------- Routes
@@ -144,15 +144,11 @@ app.get("/items/:item", async (req, res) => {
         let item = getInfoItem(req.params.item);
         // récupère les crafts
         let crafts = await getCraft(req.params.item);
-        crafts = extractMaterialFromQuad(crafts);
-        crafts = fromTableTOJsonItem(crafts);
-        item.crafts = crafts;
+        item.crafts = processQuads(crafts, "left");
 
         // récupère les matériaux nécessaires
         let materials = await getRequireMaterialsForACraft(req.params.item);
-        materials = extractMaterialFromQuad(materials, "right");
-        materials = fromTableTOJsonItem(materials);
-        item.materials = materials;
+        item.materials = processQuads(materials, "right")
 
         res.send(item);
     } catch (error) {
