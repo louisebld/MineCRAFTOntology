@@ -1,0 +1,27 @@
+@prefix ex: <http://example.org/> .
+
+ex:wood ex:isMaterial true .
+ex:stone ex:isMaterial true .
+ex:iron ex:isMaterial true .
+
+ex:plank ex:isObject true .
+ex:stoneSlab ex:isObject true .
+ex:ironIngot ex:isObject true .
+ex:woodenSword ex:isObject true .
+
+ex:wood ex:canProduce ex:plank .
+ex:stone ex:canProduce ex:stoneSlab .
+ex:iron ex:canProduce ex:ironIngot .
+ex:plank ex:requires ex:wood .
+ex:stoneSlab ex:requires ex:stone .
+ex:ironIngot ex:requires ex:iron .
+ex:woodenSword ex:isMadeOf ex:plank .
+
+ex:stick ex:isObject true .
+ex:woodenSword ex:requires ex:stick .
+ex:woodenSword ex:requires ex:plank .
+
+ex:rainyWeather ex:affects ex:woodenSword .
+
+ex:woodenSword ex:isSubclassOf ex:sword .
+ex:sword ex:isObject true .
