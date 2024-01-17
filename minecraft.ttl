@@ -13,12 +13,10 @@ ex:stick ex:isObject true .
 ex:wood ex:canCraft ex:plank .
 ex:stone ex:canCraft ex:stoneSlab .
 ex:iron ex:canCraft ex:ironIngot .
-ex:plank ex:craftFrom ex:wood .
-ex:stoneSlab ex:craftFrom ex:stone .
-ex:ironIngot ex:craftFrom ex:iron .
-ex:woodenSword ex:craftFrom ex:stick.
-ex:woodenSword ex:craftFrom ex:plank.
-
+ex:plank ex:canCraft ex:stick .
+ex:plank ex:canCraft ex:door .
+ex:stick ex:canCraft ex:woodenSword .
+ex:plank ex:canCraft ex:woodenSword .
 
 ex:woodenSword ex:isSubclassOf ex:sword .
 ex:sword ex:isObject true .
