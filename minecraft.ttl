@@ -2,7 +2,7 @@
 
 ex:oak_wood ex:isMaterial true .
 ex:stone ex:isMaterial true .
-ex:iron ex:isMaterial true .
+ex:iron_ore ex:isMaterial true .
 
 ex:oak_planks ex:isObject true .
 ex:stone_slab ex:isObject true .
@@ -27,7 +27,7 @@ ex:diamond ex:isMaterial true .
 ex:leather ex:isMaterial true .
 ex:feather ex:isMaterial true .
 ex:coal ex:isMaterial true .
-ex:emerald ex:isMaterial true .
+ex:emerald_ore ex:isMaterial true .
 ex:brick ex:isMaterial true .
 ex:feather_arrow ex:isObject true .
 ex:leather_boots ex:isObject true .
@@ -63,9 +63,7 @@ ex:stick ex:canCraft ex:stone_axe .
 ex:stick ex:canCraft ex:iron_pickaxe .
 ex:stick ex:canCraft ex:golden_shovel .
 
-ex:leaves ex:isMaterial true .
 ex:grass ex:isMaterial true .
-ex:flowers ex:isMaterial true .
 ex:sand ex:isMaterial true .
 ex:clay ex:isMaterial true .
 ex:gravel ex:isMaterial true .
