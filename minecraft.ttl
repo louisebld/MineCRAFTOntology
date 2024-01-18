@@ -1,6 +1,6 @@
 @prefix ex: <http://example.org/> .
 
-ex:wood ex:isMaterial true .
+ex:oak_wood ex:isMaterial true .
 ex:stone ex:isMaterial true .
 ex:iron ex:isMaterial true .
 
@@ -9,8 +9,9 @@ ex:stone_slab ex:isObject true .
 ex:iron_ingot ex:isObject true .
 ex:wooden_sword ex:isObject true .
 ex:stick ex:isObject true .
+ex:oak_door ex:isObject true .
 
-ex:wood ex:canCraft ex:oak_planks .
+ex:oak_wood ex:canCraft ex:oak_planks .
 ex:stone ex:canCraft ex:stone_slab .
 ex:iron ex:canCraft ex:iron_ingot .
 ex:oak_planks ex:canCraft ex:stick .
@@ -20,3 +21,52 @@ ex:oak_planks ex:canCraft ex:wooden_sword .
 
 ex:wooden_sword ex:isSubclassOf ex:sword .
 ex:sword ex:isObject true .
+
+ex:gold_ingot ex:isMaterial true .
+ex:diamond ex:isMaterial true .
+ex:leather ex:isMaterial true .
+ex:feather ex:isMaterial true .
+ex:coal ex:isMaterial true .
+ex:emerald ex:isMaterial true .
+ex:brick ex:isMaterial true .
+ex:feather_arrow ex:isObject true .
+ex:leather_boots ex:isObject true .
+ex:iron_pickaxe ex:isObject true .
+ex:golden_shovel ex:isObject true .
+ex:stone_axe ex:isObject true .
+ex:iron_helmet ex:isObject true .
+
+ex:gold ex:canCraft ex:gold_ingot .
+ex:diamond ex:canCraft ex:diamond .
+ex:leather ex:canCraft ex:leather .
+ex:feather ex:canCraft ex:feather .
+ex:coal ex:canCraft ex:coal_block .
+ex:emerald ex:canCraft ex:emerald_block .
+ex:brick ex:canCraft ex:brick_wall .
+ex:feather ex:canCraft ex:feather_arrow .
+ex:leather ex:canCraft ex:leather_boots .
+ex:iron_ingot ex:canCraft ex:iron_pickaxe .
+ex:gold_ingot ex:canCraft ex:golden_shovel .
+ex:stone ex:canCraft ex:stone_axe .
+ex:iron_ingot ex:canCraft ex:iron_helmet .
+
+ex:gold_ingot ex:isSubclassOf ex:ingot .
+ex:diamond ex:isSubclassOf ex:diamond .
+ex:leather_boots ex:isSubclassOf ex:boots .
+ex:iron_pickaxe ex:isSubclassOf ex:pickaxe .
+ex:golden_shovel ex:isSubclassOf ex:shovel .
+ex:stone_axe ex:isSubclassOf ex:axe .
+ex:iron_helmet ex:isSubclassOf ex:helmet .
+
+ex:stick ex:canCraft ex:wooden_sword .
+ex:stick ex:canCraft ex:stone_axe .
+ex:stick ex:canCraft ex:iron_pickaxe .
+ex:stick ex:canCraft ex:golden_shovel .
+
+ex:leaves ex:isMaterial true .
+ex:grass ex:isMaterial true .
+ex:flowers ex:isMaterial true .
+ex:sand ex:isMaterial true .
+ex:clay ex:isMaterial true .
+ex:gravel ex:isMaterial true .
+ex:cobblestone ex:isMaterial true .
