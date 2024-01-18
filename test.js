@@ -92,6 +92,20 @@ function getRequireMaterialsForACraft(craft) {
     });
 }
 
+function getNaturalMaterials() {
+    return new Promise((resolve, reject) => {
+        let quads = [];
+        store.match(null, prefixe + 'isMaterial', null).forEach((quad) => {
+            quads.push(quad);
+        });
+
+        // pour rendre cela asynchrone
+        setImmediate(() => {
+            resolve(quads);
+        });
+    });
+}
+
 function getInfoItem(itemName) {
     return json.find(item => item.namespacedId == itemName)
 }
@@ -105,7 +119,9 @@ function fromTableTOJsonItem(table) {
 }
 
 function processQuads(quads, left_or_right) {
-    return fromTableTOJsonItem(extractMaterialFromQuad(quads, left_or_right));
+    materials = extractMaterialFromQuad(quads, left_or_right);
+    // console.log(materials)
+    return fromTableTOJsonItem(materials);
 }
 
 // --------------------------------------------------------------- Routes
@@ -157,9 +173,17 @@ app.get("/items/:item", async (req, res) => {
     }
 });
 
-app.get("/naturalMaterials", (req, res) => {
-})
-
+app.get("/naturalMaterials", async (req, res) => {
+    try {
+        let quads = await getNaturalMaterials();
+        // console.log(quads)
+        const process_quads = processQuads(quads, "right");
+        res.send(process_quads);
+    } catch (error) {
+        console.error("Une erreur s'est produite :", error);
+        res.status(500).send("Une erreur s'est produite");
+    }
+});
 app.listen(PORT, () => {
     getTurtleFile();
     getJsonMinecraft();
