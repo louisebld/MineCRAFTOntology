@@ -3,6 +3,8 @@ const { createApp, ref, reactive, computed, onMounted } = Vue
 
 createApp({
   setup() {
+    console.log("hello world")
+    const naturalMaterials = reactive([])
     const json = [
       {
         "name": "Acacia Boat",
@@ -69,11 +71,16 @@ createApp({
     //-------------------------------------------Mounted
     onMounted(() => {
       const hello = "helloWorld"
+      axios.get("/api/naturalMaterials").then((response) => {
+        Object.assign(naturalMaterials, response.data)
+        console.log(naturalMaterials)
+      })
     })
     //-------------------------------------------> UI
     return {
       hello,
-      item
+      item,
+      naturalMaterials
     }
   }
 }).mount('#app')

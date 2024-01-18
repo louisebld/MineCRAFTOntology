@@ -64,6 +64,17 @@
                     <div>
                         Fait par Louise et Tom, les tocards de la promo
                     </div>
+
+                    <div class="materials">
+                        <div class="material" v-for="material in naturalMaterials" :key="material.id">
+                            <div class="material-img">
+                                <img :src="material.image" alt="material">
+                            </div>
+                            <div class="material-name">
+                                {{ material.name }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
