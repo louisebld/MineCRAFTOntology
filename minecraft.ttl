@@ -13,7 +13,7 @@ ex:oak_door ex:isObject true .
 
 ex:oak_wood ex:canCraft ex:oak_planks .
 ex:stone ex:canCraft ex:stone_slab .
-ex:iron ex:canCraft ex:iron_ingot .
+ex:iron_ore ex:canCraft ex:iron_ingot .
 ex:oak_planks ex:canCraft ex:stick .
 ex:oak_planks ex:canCraft ex:oak_door .
 ex:stick ex:canCraft ex:wooden_sword .
