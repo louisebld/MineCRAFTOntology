@@ -230,7 +230,8 @@ app.get("/", (req, res) => {
 	res.sendFile(__dirname + "/html/index.html")
 })
 
-app.get("/item", (req, res) => {
+app.get("/item/:item_name", (req, res) => {
+	console.log(req.params.item_name)
 	res.sendFile(__dirname + "/html/item.html")
 })
 

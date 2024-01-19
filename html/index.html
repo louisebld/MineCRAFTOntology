@@ -67,12 +67,14 @@
 
                     <div class="materials">
                         <div class="material" v-for="material in naturalMaterials" :key="material.id">
-                            <div class="material-img">
-                                <img :src="material.image" alt="material">
-                            </div>
-                            <div class="material-name">
-                                {{ material.name }}
-                            </div>
+                            <a :href="'/item/' + material['namespacedId']">
+                                <div class="material-img">
+                                    <img :src="material.image" alt="material">
+                                </div>
+                                <div class="material-name">
+                                    {{ material.name }}
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
