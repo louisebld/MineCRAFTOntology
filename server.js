@@ -136,6 +136,19 @@ app.get("/api/items/:item", async (req, res) => {
 		let materials = await getQuad(null, prefixe + 'canCraft', prefixe + req.params.item);
 		item.materials = processQuads(materials, "right")
 
+		// pour tous les items.crafts, enlève le sous tableau crafts
+		item.materials.forEach(craft => {
+			craft.crafts = undefined;
+		});
+
+		item.crafts.forEach(craft => {
+			craft.materials = undefined;
+		});
+
+		console.log("item before sending", item);
+		console.log("crafts before sending", item.crafts);
+		console.log("materials before sending", item.materials);
+
 		res.send(item);
 	} catch (error) {
 		console.error("Une erreur s'est produite :", error);
