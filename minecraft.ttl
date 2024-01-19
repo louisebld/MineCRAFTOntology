@@ -31,7 +31,7 @@ ex:golden_shovel ex:isObject true .
 ex:stone_axe ex:isObject true .
 ex:iron_helmet ex:isObject true .
 
-ex:gold_ore ex:canCraft ex:gold_ingot .
+ex:gold ex:canCraft ex:gold_ingot .
 ex:leather ex:canCraft ex:leather .
 ex:coal ex:canCraft ex:coal_block .
 ex:emerald ex:canCraft ex:emerald_block .
@@ -81,3 +81,32 @@ ex:feather ex:canCraft ex:arrow .
 ex:sand ex:canCraft ex:glass .
 ex:glass_pane ex:isObject true .
 ex:glass ex:canCraft ex:glass_pane .
+
+ex:diamond_axe ex:isObject true .
+ex:diamond ex:canCraft ex:diamond_axe .
+ex:stick ex:canCraft ex:diamond_axe .
+
+ex:diamond_pickaxe ex:isObject true .
+ex:diamond ex:canCraft ex:diamond_pickaxe .
+ex:stick ex:canCraft ex:diamond_pickaxe .
+
+ex:diamond_shovel ex:isObject true .
+ex:diamond ex:canCraft ex:diamond_shovel .
+ex:stick ex:canCraft ex:diamond_shovel .
+
+ex:diamond_sword ex:isObject true .
+ex:diamond ex:canCraft ex:diamond_sword .
+ex:stick ex:canCraft ex:diamond_sword .
+
+ex:diamond_helmet ex:isObject true .
+ex:diamond ex:canCraft ex:diamond_helmet .
+
+ex:diamond_chestplate ex:isObject true .
+ex:diamond ex:canCraft ex:diamond_chestplate .
+
+ex:diamond_leggings ex:isObject true .
+ex:diamond ex:canCraft ex:diamond_leggings .
+
+ex:diamond_boots ex:isObject true .
+ex:diamond ex:canCraft ex:diamond_boots .
+

@@ -36,20 +36,15 @@
         <section>
             <div class="section-left">
                 <div class="header">
-                    <h1>Bienvenue sur l'ontologie de Minecraft</h1>
-
-                    <div>
-                        Fait par Louise et Tom, les tocards de la promo
-                    </div>
-
+                    <h1>Search result</h1>
                     <div class="materials">
-                        <div class="material" v-for="material in naturalMaterials" :key="material.id">
-                            <a :href="'/item/' + material['namespacedId']">
+                        <div class="material" v-for="occ in item" :key="occ.id">
+                            <a :href="'/item/' + occ['namespacedId']">
                                 <div class="material-img">
-                                    <img :src="material.image" alt="material">
+                                    <img :src="occ.image" alt="material">
                                 </div>
                                 <div class="material-name">
-                                    {{ material.name }}
+                                    {{ occ.name }}
                                 </div>
                             </a>
                         </div>
