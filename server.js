@@ -154,6 +154,50 @@ app.get("/api/naturalMaterials", async (req, res) => {
 	}
 });
 
+async function searchWeight(materials) {
+	let items = [];
+
+	for (const material of materials) {
+		let quads = await getQuad(null, prefixe + 'canCraft', prefixe + material);
+	  	// s'il n'y a qu'un seul item qui peut être crafté avec le matériau
+		console.log("quads", quads);
+		if (quads.length === 1) {
+			const itemToPush = getInfoItem(getName(quads[0].object.value));
+			itemToPush.weight = 0.75;
+			items.push(itemToPush)
+		} else {
+			const itemToPush = getInfoItem(getName(quads[0].object.value));
+			itemToPush.weight = 0.5;
+			items.push(itemToPush)
+		}
+	}
+	console.log(":items:", items);
+	return items;
+}
+
+app.get("/api/search/:item", async (req, res) => {
+	// cherche tous les items qui sont craftables qu'a partir de l'item recherché
+	try {
+		let finalSearch = [];
+		let searchitem = getInfoItem(req.params.item);
+		
+		let quads = await getQuad(prefixe + req.params.item, prefixe + 'canCraft', null);
+		const materials = extractMaterialFromQuad(quads, "left");
+		console.log("materials", materials);
+		const itemsBuildonlyWithItem = await searchWeight(materials);
+		
+		searchitem.weight = 1;
+		finalSearch.push(searchitem);
+		finalSearch.push(...itemsBuildonlyWithItem);
+
+		return res.send(finalSearch);
+		
+	} catch (error) {
+		console.error("Search, Une erreur s'est produite :", error);
+		res.status(500).send("Une erreur s'est produite");
+	}
+});
+
 
 
 
@@ -187,6 +231,15 @@ app.get("/", (req, res) => {
 app.get("/item/:item_name", (req, res) => {
 	console.log(req.params.item_name)
 	res.sendFile(__dirname + "/html/item.html")
+})
+
+app.get("/search", (req, res) => {
+	const searchItem = req.query.item;
+
+    // Utiliser la valeur de searchItem comme vous le souhaitez
+    console.log("Recherche de l'item :", searchItem);
+	
+	res.sendFile(__dirname + "/html/search.html")
 })
 
 app.listen(PORT, () => {

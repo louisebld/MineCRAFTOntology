@@ -8,6 +8,8 @@ createApp({
     const item = reactive({})
     // take the id from the url /item/:id
     const itemId = window.location.pathname.split("/")[2]
+    /// /search?item=diamond
+    const searchItem = window.location.search.split("=")[1]
 
     //-------------------------------------------Mounted
     onMounted(() => {
@@ -17,6 +19,12 @@ createApp({
       })
       if (itemId) {
         axios.get("/api/items/" + itemId).then((response) => {
+          Object.assign(item, response.data)
+          console.log(item)
+        })
+      }
+      if (searchItem) {
+        axios.get("/api/search/" + searchItem).then((response) => {
           Object.assign(item, response.data)
           console.log(item)
         })
