@@ -128,26 +128,45 @@ app.get("/api/items/materials/:material", async (req, res) => {
 app.get("/api/items/:item", async (req, res) => {
 	try {
 		let item = getInfoItem(req.params.item);
+
+		if (!item) {
+			res.status(404).send("Item non trouvé");
+			return;
+		}
 		// récupère les crafts
 		let crafts = await getQuad(prefixe + req.params.item, prefixe + 'canCraft', null);
-		item.crafts = processQuads(crafts, "left");
+		if (crafts) {
+			item.crafts = processQuads(crafts, "left");
+			console.log("item.crafts", item.crafts)
+			if (item.crafts) {
+				// pour tous les items.crafts, enlève les possibilités de récursion infernales
+				item.crafts.forEach(craft => {
+					craft.crafts = [];
+					craft.materials = [];
+				});
+			}
+		} else {
+			item.crafts = [];
+		}
 
-		// // récupère les matériaux nécessaires
+		// récupère les matériaux nécessaires
 		let materials = await getQuad(null, prefixe + 'canCraft', prefixe + req.params.item);
-		item.materials = processQuads(materials, "right")
 
-		// pour tous les items.crafts, enlève le sous tableau crafts
-		item.materials.forEach(craft => {
-			craft.crafts = undefined;
-		});
 
-		item.crafts.forEach(craft => {
-			craft.materials = undefined;
-		});
-
+		if (materials) {
+			item.materials = processQuads(materials, "right")
+			console.log("item.materials", item.materials)
+			if (item.materials) {
+				// pour tous les items.materials, enlève les possibilités de récursion infernales
+				item.materials.forEach(material => {
+					material.materials = [];
+					material.crafts = [];
+				});
+			}
+		} else {
+			item.materials = [];
+		}
 		console.log("item before sending", item);
-		console.log("crafts before sending", item.crafts);
-		console.log("materials before sending", item.materials);
 
 		res.send(item);
 	} catch (error) {

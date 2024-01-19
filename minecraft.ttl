@@ -13,7 +13,7 @@ ex:oak_door ex:isObject true .
 
 ex:oak_wood ex:canCraft ex:oak_planks .
 ex:stone ex:canCraft ex:stone_slab .
-ex:iron ex:canCraft ex:iron_ingot .
+ex:iron_ore ex:canCraft ex:iron_ingot .
 ex:oak_planks ex:canCraft ex:stick .
 ex:oak_planks ex:canCraft ex:oak_door .
 ex:stick ex:canCraft ex:wooden_sword .
@@ -37,8 +37,7 @@ ex:golden_shovel ex:isObject true .
 ex:stone_axe ex:isObject true .
 ex:iron_helmet ex:isObject true .
 
-ex:gold ex:canCraft ex:gold_ingot .
-ex:diamond ex:canCraft ex:diamond .
+ex:gold_ore ex:canCraft ex:gold_ingot .
 ex:leather ex:canCraft ex:leather .
 ex:feather ex:canCraft ex:feather .
 ex:coal ex:canCraft ex:coal_block .
