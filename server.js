@@ -77,51 +77,6 @@ function getQuad(subject, predicate, object) {
 	});
 }
 
-function getCraft(material) {
-	return new Promise((resolve, reject) => {
-		let quads = [];
-		console.log("subject" + prefixe + material)
-		console.log("predicate" + prefixe + 'canCraft')
-		console.log("object" + null)
-		store.match(prefixe + material, prefixe + 'canCraft', null).forEach((quad) => {
-			quads.push(quad);
-		});
-
-		// pour rendre cela asynchrone
-		setImmediate(() => {
-			resolve(quads);
-		});
-	});
-}
-
-function getRequireMaterialsForACraft(craft) {
-	return new Promise((resolve, reject) => {
-		let quads = [];
-		store.match(null, prefixe + 'canCraft', prefixe + craft).forEach((quad) => {
-			quads.push(quad);
-		});
-
-		// pour rendre cela asynchrone
-		setImmediate(() => {
-			resolve(quads);
-		});
-	});
-}
-
-function getNaturalMaterials() {
-	return new Promise((resolve, reject) => {
-		let quads = [];
-		store.match(null, prefixe + 'isMaterial', null).forEach((quad) => {
-			quads.push(quad);
-		});
-
-		// pour rendre cela asynchrone
-		setImmediate(() => {
-			resolve(quads);
-		});
-	});
-}
-
 function getInfoItem(itemName) {
 	return json.find(item => item.namespacedId == itemName)
 }
