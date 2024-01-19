@@ -66,25 +66,29 @@
 					<p>{{item.description}}</p>
 					<div class="recipes">
 						<h2>Recettes</h2>
-						<p>All the possible recipes of {{ item.name }}</p>
+						<p>All the possible crafts with {{ item.name }}</p>
 						<ul>
-							<li v-for="recipe in item.recipes" :key="recipe.id" class="recipe">
-								<div class="recipe-container">
-									<img :src="recipe.image" alt="recipe">
-									{{recipe.name}}
-								</div>
+							<li v-for="recipe in item.crafts" :key="recipe.id" class="recipe">
+								<a :href="'/item/' + recipe['namespacedId']">
+									<div class="recipe-container">
+										<img :src="recipe.image" alt="recipe">
+										{{recipe.name}}
+									</div>
+								</a>
 							</li>
 						</ul>
 					</div>
-					<div>
-						<h2>Uses</h2>
-						<p>All the possible uses of {{ item.name }}</p>
+					<div class="craft">
+						<h2>Craft</h2>
+						<p>How to craft a {{ item.name }}</p>
 						<ul>
-							<li v-for="craftItem in item.craft" :key="craftItem.id">
-								<div class="craft-container">
-									<img :src="craftItem.image" alt="craftItem">
-									{{craftItem.name}}
-								</div>
+							<li v-for="material in item.materials" :key="material.id">
+								<a :href="'/item/' + material['namespacedId']">
+									<div class="craft-container">
+										<img :src="material.image" alt="craftItem">
+										{{material.name}}
+									</div>
+								</a>
 							</li>
 						</ul>
 					</div>
