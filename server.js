@@ -80,6 +80,9 @@ function getQuad(subject, predicate, object) {
 function getCraft(material) {
 	return new Promise((resolve, reject) => {
 		let quads = [];
+		console.log("subject" + prefixe + material)
+		console.log("predicate" + prefixe + 'canCraft')
+		console.log("object" + null)
 		store.match(prefixe + material, prefixe + 'canCraft', null).forEach((quad) => {
 			quads.push(quad);
 		});
@@ -143,13 +146,11 @@ app.get("/api", (req, res) => {
 	res.send('Bienvenue')
 })
 // prefixe + material, prefixe + 'canCraft', null
-app.get("/api/objects/crafts/:material", async (req, res) => {
+app.get("/api/items/crafts/:material", async (req, res) => {
 	// les crafts qui nécessitent le matériau
 	try {
-		// const quads = await getQuad(req.params.material, prefixe + 'canCraft', null);
-		const quads = await getCraft(req.params.material);
-		console.log(quads)
-		const process_quads = processQuads(quads);
+		const quads = await getQuad(prefixe + req.params.material, prefixe + 'canCraft', null);
+		const process_quads = processQuads(quads, "left");
 		res.send(process_quads);
 	} catch (error) {
 		console.error("Une erreur s'est produite :", error);
@@ -160,9 +161,9 @@ app.get("/api/objects/crafts/:material", async (req, res) => {
 // les matériaux nécessaires pour un craft
 app.get("/api/items/materials/:material", async (req, res) => {
 	try {
-		let quads = await getRequireMaterialsForACraft(req.params.material);
-		const process_quads = processQuads(quads);
-		res.send(process_quads);
+		let quads = await getQuad(null, prefixe + 'canCraft', prefixe + req.params.material);
+		const process_quads = processQuads(quads, "right");
+		res.send({ process_quads });
 	} catch (error) {
 		console.error("Une erreur s'est produite :", error);
 		res.status(500).send("Une erreur s'est produite");
@@ -171,14 +172,13 @@ app.get("/api/items/materials/:material", async (req, res) => {
 
 app.get("/api/items/:item", async (req, res) => {
 	try {
-		console.log(req.params.item)
 		let item = getInfoItem(req.params.item);
 		// récupère les crafts
-		let crafts = await getCraft(req.params.item);
+		let crafts = await getQuad(prefixe + req.params.item, prefixe + 'canCraft', null);
 		item.crafts = processQuads(crafts, "left");
 
-		// récupère les matériaux nécessaires
-		let materials = await getRequireMaterialsForACraft(req.params.item);
+		// // récupère les matériaux nécessaires
+		let materials = await getQuad(null, prefixe + 'canCraft', prefixe + req.params.item);
 		item.materials = processQuads(materials, "right")
 
 		res.send(item);
@@ -190,8 +190,7 @@ app.get("/api/items/:item", async (req, res) => {
 
 app.get("/api/naturalMaterials", async (req, res) => {
 	try {
-		let quads = await getNaturalMaterials();
-		// console.log(quads)
+		let quads = await getQuad(null, prefixe + 'isMaterial', null);
 		const process_quads = processQuads(quads, "right");
 		res.send(process_quads);
 	} catch (error) {
