@@ -7,7 +7,7 @@ const PORT = 8080
 
 let json = null;
 const prefixe = 'http://example.org/'
-const turtleFile = fs.readFileSync('./minecraft.ttl', 'utf8');
+const turtleFile = fs.readFileSync('./turtle/minecraft.ttl', 'utf8');
 const store = new N3.Store();
 const parser = new N3.Parser();
 
@@ -137,7 +137,7 @@ app.get("/api/items/:item", async (req, res) => {
 		let crafts = await getQuad(prefixe + req.params.item, prefixe + 'canCraft', null);
 		if (crafts) {
 			item.crafts = processQuads(crafts, "left");
-			console.log("item.crafts", item.crafts)
+			// console.log("item.crafts", item.crafts)
 			if (item.crafts) {
 				// pour tous les items.crafts, enlève les possibilités de récursion infernales
 				item.crafts.forEach(craft => {
@@ -155,7 +155,7 @@ app.get("/api/items/:item", async (req, res) => {
 
 		if (materials) {
 			item.materials = processQuads(materials, "right")
-			console.log("item.materials", item.materials)
+			// console.log("item.materials", item.materials)
 			if (item.materials) {
 				// pour tous les items.materials, enlève les possibilités de récursion infernales
 				item.materials.forEach(material => {
@@ -191,8 +191,8 @@ async function searchWeight(materials) {
 
 	for (const material of materials) {
 		let quads = await getQuad(null, prefixe + 'canCraft', prefixe + material);
-	  	// s'il n'y a qu'un seul item qui peut être crafté avec le matériau
-		console.log("quads", quads);
+		// s'il n'y a qu'un seul item qui peut être crafté avec le matériau
+		// console.log("quads", quads);
 		if (quads.length === 1) {
 			const itemToPush = getInfoItem(getName(quads[0].object.value));
 			itemToPush.weight = 0.75;
@@ -203,7 +203,7 @@ async function searchWeight(materials) {
 			items.push(itemToPush)
 		}
 	}
-	console.log(":items:", items);
+	// console.log(":items:", items);
 	return items;
 }
 
@@ -212,18 +212,18 @@ app.get("/api/search/:item", async (req, res) => {
 	try {
 		let finalSearch = [];
 		let searchitem = getInfoItem(req.params.item);
-		
+
 		let quads = await getQuad(prefixe + req.params.item, prefixe + 'canCraft', null);
 		const materials = extractMaterialFromQuad(quads, "left");
-		console.log("materials", materials);
+		// console.log("materials", materials);
 		const itemsBuildonlyWithItem = await searchWeight(materials);
-		
+
 		searchitem.weight = 1;
 		finalSearch.push(searchitem);
 		finalSearch.push(...itemsBuildonlyWithItem);
 
 		return res.send(finalSearch);
-		
+
 	} catch (error) {
 		console.error("Search, Une erreur s'est produite :", error);
 		res.status(500).send("Une erreur s'est produite");
@@ -268,9 +268,9 @@ app.get("/item/:item_name", (req, res) => {
 app.get("/search", (req, res) => {
 	const searchItem = req.query.item;
 
-    // Utiliser la valeur de searchItem comme vous le souhaitez
-    console.log("Recherche de l'item :", searchItem);
-	
+	// Utiliser la valeur de searchItem comme vous le souhaitez
+	console.log("Recherche de l'item :", searchItem);
+
 	res.sendFile(__dirname + "/html/search.html")
 })
 
